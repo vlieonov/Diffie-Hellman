@@ -1,13 +1,14 @@
 ﻿#include <iostream>
 #include <cmath>
+#include <map>
 #define MOD 23
 #define G 2
-#define ALICE 12
-#define BOB 7
+#define ALICE_SECRET 10
+#define BOB_SECRET 5
 
-int fast_pow_func(int base, int exp, int mod) 
+int fast_pow_func(long long base, long long exp, long long mod)
 {
-    int res = 1;
+    long long res = 1;
     while (exp > 0) {
     if (exp & 1) {
         res = (res * base) % mod;
@@ -18,16 +19,35 @@ int fast_pow_func(int base, int exp, int mod)
     return res;
 }
 
-int bsgs(int publicKey, int g, int mod) 
+//g^x mod M = publicKey ==> x = i * m - j ==> g^(m)^i = publicKey * g^j. 
+int bsgs(long long publicKey, long long g, long long M)
 {
-    int m = static_cast<int>(std::round(sqrt(MOD)));
+    long long m = static_cast<long long>(std::round(sqrt(M)));
+    std::map<long long, long long> babystep;
 
-    return 1;
+    //baby step ==> publicKey * g^j
+    for (int j = 0; j < m; j++)
+    {
+        long long value = (publicKey * fast_pow_func(g, j, M)) % M;
+		babystep[value] = j;
+    }
+    //giant step ==> g^(m)^i
+	int g_m_i = 1;
+    long long g_m = fast_pow_func(g, m, M);
+    for (int i = 1; i < m; i++) 
+    {
+		g_m_i = (g_m_i * g_m) % M;
+        if (babystep.count(g_m_i)) {
+			return i * m - babystep[g_m_i];
+        }
+    }
+    return -1;
 }
 
 int main()
 {
-    std::cout << G << "^" << ALICE << " mod " << MOD << std::endl;
-    std::cout << fast_pow_func(G, ALICE, MOD) << std::endl;
+    int alice = fast_pow_func(G, ALICE_SECRET, MOD);
+    std::cout << G << "^" << ALICE_SECRET << " mod " << MOD << " = " << alice << std::endl;
+    std::cout << "Stolen key: " << bsgs(alice, G, MOD) << std::endl;
 }
 
