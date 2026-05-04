@@ -2,8 +2,11 @@
 #include <iostream>
 #include <winsock2.h>
 #include <windows.h>
+#include <ws2tcpip.h>
 #include <string>
-int main() 
+#include "diffie.h"
+
+int main()
 {
     WSADATA wsaData;
 
@@ -19,20 +22,9 @@ int main()
         ExitProcess(EXIT_FAILURE);
     }
 
-	SOCKET serverSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (serverSock < 0) 
-    {
-		std::cerr << "Failed to create socket" << std::endl;
-		WSACleanup();
-		ExitProcess(EXIT_FAILURE);
-    }
-	else std::cout << "Socket is ok" << std::endl;
+	SOCKET clientSock = INVALID_SOCKET;
+    clientSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	
-	int port = 8081;
-    sockaddr_in serverAddr;
-	serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-	serverAddr.sin_port = htons(port);
-
+    WSACleanup();
     return 0;
 }

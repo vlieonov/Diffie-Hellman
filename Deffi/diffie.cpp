@@ -1,10 +1,7 @@
 ﻿#include <iostream>
 #include <cmath>
 #include <map>
-#define MOD 23
-#define G 2
-#define ALICE_SECRET 10
-#define BOB_SECRET 5
+#include "diffie.h"
 
 int fast_pow_func(long long base, long long exp, long long mod)
 {
@@ -43,11 +40,3 @@ int bsgs(long long publicKey, long long g, long long M)
     }
     return -1;
 }
-
-int main()
-{
-    int alice = fast_pow_func(G, ALICE_SECRET, MOD);
-    std::cout << G << "^" << ALICE_SECRET << " mod " << MOD << " = " << alice << std::endl;
-    std::cout << "Stolen key: " << bsgs(alice, G, MOD) << std::endl;
-}
-
