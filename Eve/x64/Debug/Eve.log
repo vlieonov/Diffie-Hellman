@@ -1,0 +1,3 @@
+﻿  eve.cpp
+C:\Lab\Kursach\Deffi\Eve\eve.cpp(135,10): warning C4101: 'bufferFromBob': unreferenced local variable
+  Eve.vcxproj -> C:\Lab\Kursach\Deffi\x64\Debug\Eve.exe

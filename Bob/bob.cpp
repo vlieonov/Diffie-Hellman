@@ -20,6 +20,8 @@ int main()
         ExitProcess(EXIT_FAILURE);
     }
 
+    std::cout << "Bob:" << std::endl;
+
     SOCKET serverSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (serverSock < 0)
     {
@@ -63,6 +65,10 @@ int main()
     }
     else std::cout << "accept is ok" << std::endl;
 
+    int msg = 321;
+    std::string s = std::to_string(msg);
+    send(acceptSocket, s.c_str(), (int)s.length(), 0);
+
     char buffer[1024];
     int bytesReceived = recv(acceptSocket, buffer, sizeof(buffer) - 1, 0);
 
@@ -80,10 +86,6 @@ int main()
         WSACleanup();
         return 1;
     }
-
-	int msg = 321;
-	std::string s = std::to_string(msg);
-    send(acceptSocket, s.c_str(), (int)s.length(), 0);
 
     closesocket(acceptSocket);
     closesocket(serverSock);

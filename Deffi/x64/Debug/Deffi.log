@@ -1,1 +1,7 @@
-﻿  Deffi.vcxproj -> C:\Lab\Kursach\Deffi\x64\Debug\Deffi.exe
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Deffi.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  diffie.cpp
+C:\Lab\Kursach\Deffi\Deffi\diffie.cpp(16,12): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
+C:\Lab\Kursach\Deffi\Deffi\diffie.cpp(36,25): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+C:\Lab\Kursach\Deffi\Deffi\diffie.cpp(38,17): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Lab\Kursach\Deffi\x64\Debug\Diffie.exe : fatal error LNK1120: 1 unresolved externals

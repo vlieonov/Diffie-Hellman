@@ -22,6 +22,8 @@ int main()
         ExitProcess(EXIT_FAILURE);
     }
 
+    std::cout << "Alice:" << std::endl;
+
 	SOCKET clientSock = INVALID_SOCKET;
     clientSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (clientSock < 0)
@@ -34,7 +36,7 @@ int main()
 
 	sockaddr_in clientService;
 	clientService.sin_family = AF_INET;
-	clientService.sin_port = htons(DEFAULT_PORT);
+	clientService.sin_port = htons(ATTACK_PORT);
 
     if (inet_pton(AF_INET, "127.0.0.1", &clientService.sin_addr) <= 0) {
         std::cerr << "Invalid address" << std::endl;
@@ -53,11 +55,12 @@ int main()
     send(clientSock, s.c_str(), (int)s.length(), 0);
 
     char buffer[1024];
+	long long key = 0;
     int bytesReceived = recv(clientSock, buffer, sizeof(buffer) - 1, 0);
     if (bytesReceived > 0) {
         buffer[bytesReceived] = '\0';
         std::cout << "Public key received:" << buffer <<std::endl;
-        long long key = std::stoll(buffer);
+        key = std::stoll(buffer);
     }
     else if (bytesReceived == 0) std::cout << "Connection is closed" << std::endl;
     else std::cerr << "recv failed" << std::endl;
