@@ -20,7 +20,14 @@ int main()
         ExitProcess(EXIT_FAILURE);
     }
 
-    SOCKET serverSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    
+    SOCKET eveSock = INVALID_SOCKET;
+    if (eveSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP) < 0) {
+        std::cerr << "failed to create Socket" << std::endl;
+        WSACleanup();
+        ExitProcess(EXIT_FAILURE);
+        return 1;
+    }
+    else std::cout << "Socket is ok" << std::endl;
+
     return 0;
 }

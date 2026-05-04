@@ -26,6 +26,7 @@ int main()
         std::cerr << "Failed to create socket" << std::endl;
         WSACleanup();
         ExitProcess(EXIT_FAILURE);
+        return 1;
     }
     else std::cout << "Socket is ok" << std::endl;
 
@@ -38,7 +39,7 @@ int main()
         std::cerr << "bind failed:" << WSAGetLastError() << std::endl;
         closesocket(serverSock);
         WSACleanup();
-        return 0;
+        return 1;
     }
     else {
         std::cout << "bind is ok" << std::endl;
@@ -46,6 +47,9 @@ int main()
 
     if (listen(serverSock, 1) == SOCKET_ERROR) {
         std::cerr << "listen : error listening on socket" << WSAGetLastError() << std::endl;
+        closesocket(serverSock);
+        WSACleanup();
+        return 1;
     }
     else std::cout << "Bob is listening" << std::endl;
 
@@ -55,7 +59,7 @@ int main()
     if (acceptSocket == INVALID_SOCKET) {
         std::cerr << "accept failed:" << WSAGetLastError() << std::endl;
         WSACleanup();
-        return -1;
+        return 1;
     }
     else std::cout << "accept is ok" << std::endl;
 
@@ -72,11 +76,14 @@ int main()
     }
     else {
         std::cerr << "recv failed:" << WSAGetLastError() << std::endl;
+        closesocket(serverSock);
+        WSACleanup();
+        return 1;
     }
 
 	int msg = 321;
 	std::string s = std::to_string(msg);
-    send(serverSock, s.c_str(), (int)s.length(), 0);
+    send(acceptSocket, s.c_str(), (int)s.length(), 0);
 
     closesocket(acceptSocket);
     closesocket(serverSock);
