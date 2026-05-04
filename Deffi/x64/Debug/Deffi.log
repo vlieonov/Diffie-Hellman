@@ -1,5 +1,1 @@
-﻿  Deffi.cpp
-C:\Lab\Kursach\Deffi\Deffi\Deffi.cpp(19,12): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
-C:\Lab\Kursach\Deffi\Deffi\Deffi.cpp(39,25): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
-C:\Lab\Kursach\Deffi\Deffi\Deffi.cpp(41,17): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
-  Deffi.vcxproj -> C:\Lab\Kursach\Deffi\x64\Debug\Deffi.exe
+﻿  Deffi.vcxproj -> C:\Lab\Kursach\Deffi\x64\Debug\Deffi.exe
