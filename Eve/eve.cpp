@@ -80,9 +80,30 @@ int main()
 		return 1;
 	}
 
-    int msg = 321;
+    int msg = fast_pow_func(G, EVE_SECRET, MOD);
     std::string s = std::to_string(msg);
     send(acceptSock, s.c_str(), (int)s.length(), 0);
+
+    //Eve gets cyphered msg from Alice
+	std::string aliceMsg;
+    char buffer_secret[1024];
+    int temp = recv(acceptSock, buffer_secret, sizeof(buffer) - 1, 0);
+    if (temp > 0) {
+        buffer_secret[temp] = '\0';
+        std::cout << "Received from Alice:" << buffer_secret << std::endl;
+        aliceMsg = buffer_secret;
+    }
+    else if (temp == 0) std::cout << "Connection closed by Alice" << std::endl;
+    else {
+        std::cerr << "recv failed" << std::endl;
+        WSACleanup();
+        ExitProcess(EXIT_FAILURE);
+        return 1;
+    }
+
+	//Eve decrypts the msg from Alice
+    std::string encryptedMsg = encryptMsg(aliceMsg, fast_pow_func(aliceKey, EVE_SECRET, MOD));
+	std::cout << "Decrypted message from Alice: " << encryptedMsg << std::endl;
 
     //Eve Client
 	SOCKET eveToBobSock = INVALID_SOCKET;

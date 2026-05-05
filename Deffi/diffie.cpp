@@ -3,7 +3,7 @@
 #include <map>
 #include "diffie.h"
 
-int fast_pow_func(long long base, long long exp, long long mod)
+long long fast_pow_func(long long base, long long exp, long long mod)
 {
     long long res = 1;
     while (exp > 0) {
@@ -39,4 +39,13 @@ int bsgs(long long publicKey, long long g, long long M)
         }
     }
     return -1;
+}
+
+std::string encryptMsg(std::string msg, long long key) 
+{
+	std::string encryptedMsg = msg;
+    for (size_t i = 0; i < msg.length(); i++) {
+        encryptedMsg[i] = msg[i] ^ (static_cast<char>(key % 256));
+    }
+    return encryptedMsg;
 }
