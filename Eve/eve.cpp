@@ -1,9 +1,3 @@
-#pragma comment(lib, "ws2_32.lib")
-#include <iostream>
-#include <winsock2.h>
-#include <windows.h>
-#include <ws2tcpip.h>
-#include <string>
 #include "diffie.h"
 
 int main()
@@ -107,6 +101,9 @@ int main()
 
     std::string str = std::to_string(evePublicKey);
     send(eveToBobSock, str.c_str(), (int)str.length(), 0);
+
+    std::string fromAliceToBobMsg = encryptMsg(encryptedMsg, fast_pow_func(bobKey, EVE_SECRET, MOD));
+    send(eveToBobSock, fromAliceToBobMsg.c_str(), (int)fromAliceToBobMsg.length(), 0);
 
     system("pause");
     closesocket(acceptSock);

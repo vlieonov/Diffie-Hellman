@@ -1,8 +1,8 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Bob.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   diffie.cpp
-C:\Lab\Kursach\Deffi\Deffi\diffie.cpp(38,25): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
-C:\Lab\Kursach\Deffi\Deffi\diffie.cpp(40,17): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
+C:\Lab\Kursach\Deffi\Deffi\diffie.cpp(35,25): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+C:\Lab\Kursach\Deffi\Deffi\diffie.cpp(37,17): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
   alice.cpp
-C:\Lab\Kursach\Deffi\Alice\alice.cpp(53,24): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Lab\Kursach\Deffi\Alice\alice.cpp(48,24): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
   Generating Code...
   Alice.vcxproj -> C:\Lab\Kursach\Deffi\x64\Debug\Alice.exe

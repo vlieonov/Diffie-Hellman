@@ -1,8 +1,3 @@
-#pragma comment(lib, "ws2_32.lib")
-#include <iostream>
-#include <winsock2.h>
-#include <windows.h>
-#include <string>
 #include "diffie.h"
 int main()
 {
@@ -70,6 +65,10 @@ int main()
     send(acceptSocket, s.c_str(), (int)s.length(), 0);
 
     long long receivedPublicKey = std::stoll(recv_func(acceptSocket));
+    std::string receivedMsg = recv_func(acceptSocket);
+
+    std::string encryptedMsg = encryptMsg(receivedMsg, fast_pow_func(receivedPublicKey, BOB_SECRET, MOD));
+    std::cout << "Decrypted message from Alice(Through Eve): " << encryptedMsg << std::endl;
 
     closesocket(acceptSocket);
     closesocket(serverSock);

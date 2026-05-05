@@ -1,9 +1,6 @@
-﻿#include <iostream>
+﻿#include "diffie.h"
 #include <cmath>
 #include <map>
-#include <winsock2.h>
-#include <windows.h>
-#include "diffie.h"
 
 long long fast_pow_func(long long base, long long exp, long long mod)
 {
@@ -21,7 +18,7 @@ long long fast_pow_func(long long base, long long exp, long long mod)
 //g^x mod M = publicKey ==> x = i * m - j ==> g^(m)^i = publicKey * g^j. 
 int bsgs(long long publicKey, long long g, long long M)
 {
-    long long m = static_cast<long long>(std::round(sqrt(M)));
+    long long m = static_cast<long long>(std::ceil(sqrt(M)));
     std::map<long long, long long> babystep;
 
     //baby step ==> publicKey * g^j
@@ -31,7 +28,7 @@ int bsgs(long long publicKey, long long g, long long M)
 		babystep[value] = j;
     }
     //giant step ==> g^(m)^i
-	int g_m_i = 1;
+	long long g_m_i = 1;
     long long g_m = fast_pow_func(g, m, M);
     for (int i = 1; i < m; i++) 
     {
