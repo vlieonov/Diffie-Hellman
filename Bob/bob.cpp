@@ -65,27 +65,11 @@ int main()
     }
     else std::cout << "accept is ok" << std::endl;
 
-    int msg = 321;
-    std::string s = std::to_string(msg);
+    int bobPublicKey = fast_pow_func(G, BOB_SECRET, MOD);
+    std::string s = std::to_string(bobPublicKey);
     send(acceptSocket, s.c_str(), (int)s.length(), 0);
 
-    char buffer[1024];
-    int bytesReceived = recv(acceptSocket, buffer, sizeof(buffer) - 1, 0);
-
-    if (bytesReceived > 0) {
-        buffer[bytesReceived] = '\0';
-        std::cout << "Bob received Public Key: " << buffer << std::endl;
-        long long receivedKey = std::stoll(buffer);
-    }
-    else if (bytesReceived == 0) {
-        std::cout << "Connection closed by client" << std::endl;
-    }
-    else {
-        std::cerr << "recv failed:" << WSAGetLastError() << std::endl;
-        closesocket(serverSock);
-        WSACleanup();
-        return 1;
-    }
+    long long receivedPublicKey = std::stoll(recv_func(acceptSocket));
 
     closesocket(acceptSocket);
     closesocket(serverSock);

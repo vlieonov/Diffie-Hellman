@@ -9,3 +9,4 @@
 long long fast_pow_func(long long base, long long exp, long long mod);
 int bsgs(long long publicKey, long long g, long long M);
 std::string encryptMsg(std::string msg, long long key);
+std::string recv_func(SOCKET sock);

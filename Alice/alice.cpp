@@ -54,20 +54,11 @@ int main()
     std::string s = std::to_string(alicePublicKey);
     send(clientSock, s.c_str(), (int)s.length(), 0);
 
-    char buffer[1024];
-	long long key = 0;
-    int bytesReceived = recv(clientSock, buffer, sizeof(buffer) - 1, 0);
-    if (bytesReceived > 0) {
-        buffer[bytesReceived] = '\0';
-        std::cout << "Public key received:" << buffer <<std::endl;
-        key = std::stoll(buffer);
-    }
-    else if (bytesReceived == 0) std::cout << "Connection is closed" << std::endl;
-    else std::cerr << "recv failed" << std::endl;
+    long long receivedPublicKey = std::stoll(recv_func(clientSock));
 
 	//Alice send cyphered msg to Bob(Eve)
 	std::string msgToBob = "Hello Bob!";
-	std::string encryptedMsg = encryptMsg(msgToBob, fast_pow_func(key, ALICE_SECRET, MOD));
+	std::string encryptedMsg = encryptMsg(msgToBob, fast_pow_func(receivedPublicKey, ALICE_SECRET, MOD));
 	send(clientSock, encryptedMsg.c_str(), (int)encryptedMsg.length(), 0);
 
     system("pause");

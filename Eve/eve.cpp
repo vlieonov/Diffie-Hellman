@@ -64,44 +64,15 @@ int main()
         return 1;
     }
     else std::cout << "accept is ok" << std::endl;
-    long long aliceKey = 0;
-    char buffer[1024];
-    int recvResult = recv(acceptSock, buffer, sizeof(buffer) - 1, 0);
-    if (recvResult > 0) {
-        buffer[recvResult] = '\0';
-        std::cout << "Received from Alice:" << buffer << std::endl;
-        aliceKey = std::stoll(buffer);
-    }
-    else if (recvResult == 0) std::cout << "Connection closed by Alice" << std::endl;
-	else {
-		std::cerr << "recv failed" << std::endl;
-		WSACleanup();
-		ExitProcess(EXIT_FAILURE);
-		return 1;
-	}
+    long long aliceKey = std::stoll(recv_func(acceptSock));
 
-    int msg = fast_pow_func(G, EVE_SECRET, MOD);
-    std::string s = std::to_string(msg);
+    int evePublicKey = fast_pow_func(G, EVE_SECRET, MOD);
+    std::string s = std::to_string(evePublicKey);
     send(acceptSock, s.c_str(), (int)s.length(), 0);
 
     //Eve gets cyphered msg from Alice
-	std::string aliceMsg;
-    char buffer_secret[1024];
-    int temp = recv(acceptSock, buffer_secret, sizeof(buffer) - 1, 0);
-    if (temp > 0) {
-        buffer_secret[temp] = '\0';
-        std::cout << "Received from Alice:" << buffer_secret << std::endl;
-        aliceMsg = buffer_secret;
-    }
-    else if (temp == 0) std::cout << "Connection closed by Alice" << std::endl;
-    else {
-        std::cerr << "recv failed" << std::endl;
-        WSACleanup();
-        ExitProcess(EXIT_FAILURE);
-        return 1;
-    }
+	std::string aliceMsg = recv_func(acceptSock);
 
-	//Eve decrypts the msg from Alice
     std::string encryptedMsg = encryptMsg(aliceMsg, fast_pow_func(aliceKey, EVE_SECRET, MOD));
 	std::cout << "Decrypted message from Alice: " << encryptedMsg << std::endl;
 
@@ -131,24 +102,10 @@ int main()
         return 1;
     }
     else std::cout << "Eve is connected to Alice" << std::endl;
+    
+    long long bobKey = std::stoll(recv_func(eveToBobSock));
 
-    char bufferFromBob[1024];
-    int recvFromBob = recv(eveToBobSock, buffer, sizeof(buffer) - 1, 0);
-    if (recvFromBob > 0) {
-		buffer[recvFromBob] = '\0';
-		std::cout << "Received from Bob:" << buffer << std::endl;
-		long long bobKey = std::stoll(buffer);
-	}
-	else if (recvFromBob == 0) std::cout << "Connection closed by Bob" << std::endl;
-	else {
-		std::cerr << "recv failed" << std::endl;
-		WSACleanup();
-		ExitProcess(EXIT_FAILURE);
-		return 1;
-	}
-
-    int msgToBob = 321;
-    std::string str = std::to_string(msgToBob);
+    std::string str = std::to_string(evePublicKey);
     send(eveToBobSock, str.c_str(), (int)str.length(), 0);
 
     system("pause");

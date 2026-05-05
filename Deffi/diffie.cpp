@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <cmath>
 #include <map>
+#include <winsock2.h>
+#include <windows.h>
 #include "diffie.h"
 
 long long fast_pow_func(long long base, long long exp, long long mod)
@@ -48,4 +50,25 @@ std::string encryptMsg(std::string msg, long long key)
         encryptedMsg[i] = msg[i] ^ (static_cast<char>(key % 256));
     }
     return encryptedMsg;
+}
+
+std::string recv_func(SOCKET sock) 
+{
+	char buffer[1024];
+	int bytesReceived = recv(sock, buffer, sizeof(buffer) - 1, 0);
+	if (bytesReceived > 0) {
+		buffer[bytesReceived] = '\0';
+		std::cout << "Received: " << buffer << std::endl;
+		return std::string(buffer);
+	}
+	else if (bytesReceived == 0) {
+		std::cout << "Connection closed by client" << std::endl;
+		return "CLOSED";
+	}
+	else {
+		std::cerr << "recv failed:" << WSAGetLastError() << std::endl;
+		closesocket(sock);
+		WSACleanup();
+		return "ERROR";
+	}
 }
